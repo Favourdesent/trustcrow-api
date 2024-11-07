@@ -1,0 +1,1110 @@
+{
+	"info": {
+		"_postman_id": "974b19ee-e4c3-4dde-ba5c-4894d9a64129",
+		"name": "Trustcrow",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Register",
+			"item": [
+				{
+					"name": "Success",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "231c3ab3-af04-4938-abc4-f018f3ac2d58",
+								"exec": [
+									"let jsonData = pm.response.json();",
+									"",
+									"pm.test(\"Request is successful\", function () {",
+									"    pm.expect(jsonData.isSuccessful).to.be.true;",
+									"});",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.expect(jsonData.statusCode).to.eql(200);",
+									"});",
+									"",
+									"pm.test(\"Message is 'User created successfully'\", function () {",
+									"    pm.expect(jsonData.message).to.eql(\"User created successfully\");",
+									"});",
+									"",
+									"pm.test(\"Data fields are as expected\", function () {",
+									"    pm.expect(jsonData.data).to.have.property(\"name\", \"favour\");",
+									"    pm.expect(jsonData.data).to.have.property(\"email\").that.is.a(\"string\");",
+									"    pm.expect(jsonData.data).to.have.property(\"createdAt\");",
+									"    pm.expect(jsonData.data).to.have.property(\"updatedAt\");",
+									"});",
+									"",
+									"pm.test(\"createdAt and updatedAt are in valid date format\", function () {",
+									"    const createdAt = new Date(jsonData.data.createdAt);",
+									"    const updatedAt = new Date(jsonData.data.updatedAt);",
+									"    pm.expect(createdAt.toISOString()).to.eql(jsonData.data.createdAt);",
+									"    pm.expect(updatedAt.toISOString()).to.eql(jsonData.data.updatedAt);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"id": "7f643ea2-afe7-4c24-a39e-d15f4373f178",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"{{$randomFirstName}}@yopmail.com\",\n    \"password\": \"@passwordA1\",\n    \"name\": \"favour\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{BaseUrl}}/auth/signup"
+					},
+					"response": []
+				},
+				{
+					"name": "Invalid Endpoint",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "231c3ab3-af04-4938-abc4-f018f3ac2d58",
+								"exec": [
+									"let jsonData = pm.response.json();",
+									"",
+									"pm.test(\"Status code is 404\", function () {",
+									"    pm.response.to.have.status(404);",
+									"});",
+									"",
+									"pm.test(\"Status code is 404\", function () {",
+									"    pm.expect(jsonData.statusCode).to.eql(404);",
+									"});",
+									"",
+									"pm.test(\"Message is returned\", function () {",
+									"    pm.expect(jsonData.message).to.eql(\"Cannot POST /api/Authh/signup\");",
+									"});",
+									"pm.test(\"Error is 'Not Found'\", function () {",
+									"    pm.expect(jsonData.error).to.eql('Not Found');",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"id": "a67fff06-1550-45ba-9839-ff9c10b60a7e",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"{{$randomFirstName}}@yopmail.com\",\n    \"password\": \"favour\",\n    \"name\": \"favour\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{BaseUrl}}/Authh/signup"
+					},
+					"response": []
+				},
+				{
+					"name": "Existing email",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "231c3ab3-af04-4938-abc4-f018f3ac2d58",
+								"exec": [
+									"let jsonData = pm.response.json();",
+									"",
+									"pm.test(\"Status code is 409\", function () {",
+									"    pm.response.to.have.status(409);",
+									"});",
+									"pm.test(\"Request is not successful\", function () {",
+									"    pm.expect(jsonData.isSuccessful).to.be.false;",
+									"});",
+									"",
+									"pm.test(\"Status code is 409\", function () {",
+									"    pm.expect(jsonData.statusCode).to.eql(409);",
+									"});",
+									"",
+									"pm.test(\"Message is 'Email already exists'\", function () {",
+									"    pm.expect(jsonData.message).to.eql(\"Email already exists\");",
+									"});",
+									"pm.test(\"No data is returned\", function () {",
+									"    pm.expect(jsonData.data).to.be.null;",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"id": "4c963e04-fe6c-417a-9144-c0f2613fba9d",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"favourdesent@gmail.com\",\n    \"password\": \"@passwordA1\",\n    \"name\": \"favour\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{BaseUrl}}/auth/signup"
+					},
+					"response": []
+				},
+				{
+					"name": "Empty Email",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "231c3ab3-af04-4938-abc4-f018f3ac2d58",
+								"exec": [
+									"let jsonData = pm.response.json();",
+									"",
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"pm.test(\"Error is 'Bad Request'\", function () {",
+									"    pm.expect(jsonData.error).to.eql('Bad Request');",
+									"});",
+									"",
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.expect(jsonData.statusCode).to.eql(400);",
+									"});",
+									"",
+									"pm.test(\"Message Contain 'Email should not be empty'\", function () {",
+									"    pm.expect(jsonData.message).to.contain(\"email should not be empty\");",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"id": "381fd765-556b-4480-905d-737199582266",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"\",\n    \"password\": \"@passwordA1\",\n    \"name\": \"favour\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{BaseUrl}}/auth/signup"
+					},
+					"response": []
+				},
+				{
+					"name": "Empty Password",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "231c3ab3-af04-4938-abc4-f018f3ac2d58",
+								"exec": [
+									"let jsonData = pm.response.json();",
+									"",
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"pm.test(\"Error is 'Bad Request'\", function () {",
+									"    pm.expect(jsonData.error).to.eql('Bad Request');",
+									"});",
+									"",
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.expect(jsonData.statusCode).to.eql(400);",
+									"});",
+									"",
+									"pm.test(\"Message Contain 'password should not be empty'\", function () {",
+									"    pm.expect(jsonData.message).to.contain(\"password should not be empty\");",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"id": "0b642546-4eac-4d20-b008-e447255af72a",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"favourdesent11@gmail.com\",\n    \"password\": \"\",\n    \"name\": \"favour\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{BaseUrl}}/auth/signup"
+					},
+					"response": []
+				},
+				{
+					"name": "Empty Name",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "231c3ab3-af04-4938-abc4-f018f3ac2d58",
+								"exec": [
+									"let jsonData = pm.response.json();",
+									"",
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"pm.test(\"Error is 'Bad Request'\", function () {",
+									"    pm.expect(jsonData.error).to.eql('Bad Request');",
+									"});",
+									"",
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.expect(jsonData.statusCode).to.eql(400);",
+									"});",
+									"",
+									"pm.test(\"Message Contain 'name should not be empty'\", function () {",
+									"    pm.expect(jsonData.message).to.contain(\"name should not be empty\");",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"id": "188ce234-2ea3-4b17-ab92-9b2a22fc771b",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"favourdesent11@gmail.com\",\n    \"password\": \"@passwordA1\",\n    \"name\": \"\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{BaseUrl}}/auth/signup"
+					},
+					"response": []
+				}
+			],
+			"id": "71c764fa-3f74-4218-8062-0c414f78be8d"
+		},
+		{
+			"name": "Login",
+			"item": [
+				{
+					"name": "Success",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "062af173-eed8-48a3-8c46-cbb1c38e2ebc",
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"pm.environment.set(\"token\", jsonData.data.token);",
+									"pm.environment.set(\"userId\", jsonData.data.user.id);",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Verify that message is Login successfully\", function () {",
+									"    pm.expect(jsonData.message).to.eql(\"Login successfully\");",
+									"});",
+									"pm.test(\"Verify that user id is returned\", function () {",
+									"    pm.expect(jsonData.data.user.id).to.not.be.null;",
+									"});",
+									"pm.test(\"Verify that statuscode is 200\", function () {",
+									"    pm.expect(jsonData.statusCode).to.eql(200);",
+									"});",
+									"pm.test(\"Verify that the request is successful\", function () {",
+									"    pm.expect(jsonData.isSuccessful).to.be.true",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"id": "d8fc8766-0cc0-4c6c-8005-1ac67eff075e",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"favourdesent@gmail.com\",\n    \"password\": \"@passwordA1\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{BaseUrl}}/auth/login"
+					},
+					"response": []
+				},
+				{
+					"name": "Empty email",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "062af173-eed8-48a3-8c46-cbb1c38e2ebc",
+								"exec": [
+									"let jsonData = pm.response.json();",
+									"",
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"pm.test(\"Error is 'Bad Request'\", function () {",
+									"    pm.expect(jsonData.error).to.eql('Bad Request');",
+									"});",
+									"",
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.expect(jsonData.statusCode).to.eql(400);",
+									"});",
+									"",
+									"pm.test(\"Message Contain 'Email should not be empty'\", function () {",
+									"    pm.expect(jsonData.message).to.contain(\"email should not be empty\");",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"id": "01d487e7-e03f-461b-8529-5b170a36588d",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"\",\n    \"password\": \"@passwordA1\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{BaseUrl}}/auth/login"
+					},
+					"response": []
+				},
+				{
+					"name": "Empty password",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "062af173-eed8-48a3-8c46-cbb1c38e2ebc",
+								"exec": [
+									"let jsonData = pm.response.json();",
+									"",
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"pm.test(\"Error is 'Bad Request'\", function () {",
+									"    pm.expect(jsonData.error).to.eql('Bad Request');",
+									"});",
+									"",
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.expect(jsonData.statusCode).to.eql(400);",
+									"});",
+									"",
+									"pm.test(\"Message Contain 'password should not be empty'\", function () {",
+									"    pm.expect(jsonData.message).to.contain(\"password should not be empty\");",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"id": "35cdd118-cbd5-432e-9c11-07f40a48877c",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"favourdesent@gmail.com\",\n    \"password\": \"\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{BaseUrl}}/auth/login"
+					},
+					"response": []
+				},
+				{
+					"name": "Wrong email",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "3ab80d8f-245d-46ac-ba39-5031552427ad",
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"pm.test(\"Verify that message is returned\", function () {",
+									"    pm.expect(jsonData.message).to.eql(\"Invalid email or password\");",
+									"});",
+									"pm.test(\"Verify statusCode is 400\", function () {",
+									"    pm.expect(jsonData.statusCode).to.eql(400);",
+									"});",
+									"pm.test(\"Verify data is null\", function () {",
+									"    pm.expect(jsonData.data).to.be.null;",
+									"});",
+									"pm.test(\"Verify that the request is not successful\", function () {",
+									"    pm.expect(jsonData.isSuccessful).to.be.false;",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"id": "cd6d3740-c552-4127-b8bf-99ef76bf6efe",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"favot@gmail.com\",\n    \"password\": \"@passwordA1\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{BaseUrl}}/auth/login"
+					},
+					"response": []
+				},
+				{
+					"name": "Wrong Password",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "3ab80d8f-245d-46ac-ba39-5031552427ad",
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"pm.test(\"Verify that message is returned\", function () {",
+									"    pm.expect(jsonData.message).to.eql(\"Invalid email or password\");",
+									"});",
+									"pm.test(\"Verify statusCode is 400\", function () {",
+									"    pm.expect(jsonData.statusCode).to.eql(400);",
+									"});",
+									"pm.test(\"Verify data is null\", function () {",
+									"    pm.expect(jsonData.data).to.be.null;",
+									"});",
+									"pm.test(\"Verify that the request is not successful\", function () {",
+									"    pm.expect(jsonData.isSuccessful).to.be.false;",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"id": "962d7f57-795d-4169-88e3-f6b6649fbbe4",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"favourdesent@gmail.com\",\n    \"password\": \"@passwordA11\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{BaseUrl}}/auth/login"
+					},
+					"response": []
+				}
+			],
+			"id": "6b09942a-6fef-4d23-8045-e453a4401410"
+		},
+		{
+			"name": "Create Invoice",
+			"item": [
+				{
+					"name": "Success",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "201c5c69-f11d-4fdd-97f5-ce6c493469e0",
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"pm.environment.set(\"invoiceId\", jsonData.data.id);",
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"pm.test(\"Verify that message is Login successfully\", function () {",
+									"    pm.expect(jsonData.message).to.eql(\"Invoice created successfully\");",
+									"});",
+									"pm.test(\"Verify that data is returned\", function () {",
+									"    pm.expect(jsonData.data).to.not.be.null;",
+									"});",
+									"pm.test(\"Verify that statuscode is 201\", function () {",
+									"    pm.expect(jsonData.statusCode).to.eql(201);",
+									"});",
+									"pm.test(\"Verify that the request is successful\", function () {",
+									"    pm.expect(jsonData.isSuccessful).to.be.true",
+									"});",
+									"pm.test(\"Response has correct data fields\", function () {",
+									"    const data = pm.response.json().data;",
+									"    pm.expect(data).to.have.property(\"customerName\");",
+									"    pm.expect(data).to.have.property(\"customerAddress\");",
+									"    pm.expect(data).to.have.property(\"userId\");",
+									"    pm.expect(data).to.have.property(\"productSubtotal\", \"5000.00\");",
+									"    pm.expect(data).to.have.property(\"invoiceTotal\", \"5000.00\");",
+									"    pm.expect(data).to.have.property(\"id\");",
+									"    pm.expect(data).to.have.property(\"createdAt\");",
+									"    pm.expect(data).to.have.property(\"updatedAt\");",
+									"    pm.expect(data).to.have.property(\"invoiceNumber\");",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"id": "af95d9fd-eb90-4053-9a06-1d8ce4102a22",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"userId\": \"{{userId}}\",\n    \"customerName\": \"Favour\",\n    \"customerAddress\": \"11 test village\",\n    \"details\":[\n        {\n        \"productCode\": \"112212\",\n        \"productDescription\": \"test invoice\",\n        \"productQuantity\": \"9\",\n        \"productPricePerUnit\": \"500\"\n    }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{BaseUrl}}/invoice/create"
+					},
+					"response": []
+				},
+				{
+					"name": "No Auth",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "201c5c69-f11d-4fdd-97f5-ce6c493469e0",
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"pm.test(\"Status code is 401\", function () {",
+									"    pm.response.to.have.status(401);",
+									"});",
+									"pm.test(\"Verify that message is Unauthorized\", function () {",
+									"    pm.expect(jsonData.message).to.eql(\"Unauthorized\");",
+									"});",
+									"pm.test(\"Verify That statusCode is 401\", function () {",
+									"    pm.expect(jsonData.statusCode).to.eql(401);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"id": "8a6c21c7-491f-4a50-a715-dad577b93ed0",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": ""
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"userId\": \"{{userId}}\",\n    \"customerName\": \"Favour\",\n    \"customerAddress\": \"11 test village\",\n    \"details\":[\n        {\n        \"productCode\": \"112212\",\n        \"productDescription\": \"test invoice\",\n        \"productQuantity\": \"5\",\n        \"productPricePerUnit\": \"1000\"\n    }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{BaseUrl}}/invoice/create"
+					},
+					"response": []
+				},
+				{
+					"name": "Invalid Auth",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "201c5c69-f11d-4fdd-97f5-ce6c493469e0",
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"pm.test(\"Status code is 401\", function () {",
+									"    pm.response.to.have.status(401);",
+									"});",
+									"pm.test(\"Verify that message is Unauthorized\", function () {",
+									"    pm.expect(jsonData.message).to.eql(\"Unauthorized\");",
+									"});",
+									"pm.test(\"Verify That statusCode is 401\", function () {",
+									"    pm.expect(jsonData.statusCode).to.eql(401);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"id": "3dd5f166-98b6-476f-ab02-4e271ddf244b",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "drtfyguhijikol"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"userId\": \"{{userId}}\",\n    \"customerName\": \"Favour\",\n    \"customerAddress\": \"11 test village\",\n    \"details\":[\n        {\n        \"productCode\": \"112212\",\n        \"productDescription\": \"test invoice\",\n        \"productQuantity\": \"5\",\n        \"productPricePerUnit\": \"1000\"\n    }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{BaseUrl}}/invoice/create"
+					},
+					"response": []
+				},
+				{
+					"name": "Invalid userId",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "201c5c69-f11d-4fdd-97f5-ce6c493469e0",
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"pm.test(\"Verify that message is returned\", function () {",
+									"    pm.expect(jsonData.message).to.eql(\"Invalid userId\");",
+									"});",
+									"pm.test(\"Verify That statusCode is 400\", function () {",
+									"    pm.expect(jsonData.statusCode).to.eql(400);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"id": "031c0a6e-1b98-453e-b094-2bea0ffd445f",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"userId\": \"1234567u8iojhjgcf\",\n    \"customerName\": \"Favour\",\n    \"customerAddress\": \"11 test village\",\n    \"details\":[\n        {\n        \"productCode\": \"112212\",\n        \"productDescription\": \"test invoice\",\n        \"productQuantity\": \"5\",\n        \"productPricePerUnit\": \"1000\"\n    }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{BaseUrl}}/invoice/create"
+					},
+					"response": []
+				}
+			],
+			"id": "4c77bc1b-f750-4575-951a-86fcf1692d67"
+		},
+		{
+			"name": "Retrieve All Invoices",
+			"item": [
+				{
+					"name": "Success",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "faae0eab-96b4-4317-a128-67b6e9eec14b",
+								"exec": [
+									"let jsonData = pm.response.json();",
+									"",
+									"pm.test(\"Request is successful\", function () {",
+									"    pm.expect(jsonData.isSuccessful).to.be.true;",
+									"});",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.expect(jsonData.statusCode).to.eql(200);",
+									"});",
+									"",
+									"pm.test(\"Message is 'All invoices fetched successfully'\", function () {",
+									"    pm.expect(jsonData.message).to.eql(\"All invoices fetched successfully\");",
+									"});",
+									"pm.test(\"Verify that Data is return\", function () {",
+									"    pm.expect(jsonData.data).to.not.be.null;",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"id": "cf12f213-37fc-4684-92c9-60577c03fd1f",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "{{BaseUrl}}/invoice/all"
+					},
+					"response": []
+				},
+				{
+					"name": "No Auth",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "faae0eab-96b4-4317-a128-67b6e9eec14b",
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"pm.test(\"Status code is 401\", function () {",
+									"    pm.response.to.have.status(401);",
+									"});",
+									"pm.test(\"Verify that message is Unauthorized\", function () {",
+									"    pm.expect(jsonData.message).to.eql(\"Unauthorized\");",
+									"});",
+									"pm.test(\"Verify That statusCode is 401\", function () {",
+									"    pm.expect(jsonData.statusCode).to.eql(401);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"id": "77c9bb26-7cc9-4c52-9535-1d19d4ea55a7",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": "{{BaseUrl}}/invoice/all"
+					},
+					"response": []
+				},
+				{
+					"name": "Invalid Auth",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "faae0eab-96b4-4317-a128-67b6e9eec14b",
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"pm.test(\"Status code is 401\", function () {",
+									"    pm.response.to.have.status(401);",
+									"});",
+									"pm.test(\"Verify that message is Unauthorized\", function () {",
+									"    pm.expect(jsonData.message).to.eql(\"Unauthorized\");",
+									"});",
+									"pm.test(\"Verify That statusCode is 401\", function () {",
+									"    pm.expect(jsonData.statusCode).to.eql(401);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"id": "81f93e16-6baf-4c1e-8107-752e6f4a533f",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "dxcfvgbhnjmk,"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "{{BaseUrl}}/invoice/all"
+					},
+					"response": []
+				}
+			],
+			"id": "9ab660a0-b921-43d2-b94e-2af13115b71f"
+		},
+		{
+			"name": "Retrieve Single Invoice",
+			"item": [
+				{
+					"name": "Success",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "f2ecddfe-12d2-45f7-be1f-630f4f86d08c",
+								"exec": [
+									"let jsonData = pm.response.json();",
+									"",
+									"pm.test(\"Request is successful\", function () {",
+									"    pm.expect(jsonData.isSuccessful).to.be.true;",
+									"});",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.expect(jsonData.statusCode).to.eql(200);",
+									"});",
+									"",
+									"pm.test(\"Message is 'All invoices fetched successfully'\", function () {",
+									"    pm.expect(jsonData.message).to.eql(\"Invoice fetched successfully\");",
+									"});",
+									"pm.test(\"Verify that Data is return\", function () {",
+									"    pm.expect(jsonData.data).to.not.be.null;",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"id": "be2f0a95-6bbe-49b9-844d-7ece5b4edbcc",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "{{BaseUrl}}/invoice/{{invoiceId}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Invalid Auth",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "f2ecddfe-12d2-45f7-be1f-630f4f86d08c",
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"pm.test(\"Status code is 401\", function () {",
+									"    pm.response.to.have.status(401);",
+									"});",
+									"pm.test(\"Verify that message is Unauthorized\", function () {",
+									"    pm.expect(jsonData.message).to.eql(\"Unauthorized\");",
+									"});",
+									"pm.test(\"Verify That statusCode is 401\", function () {",
+									"    pm.expect(jsonData.statusCode).to.eql(401);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"id": "a62e8e91-8948-4c55-b9b6-4ae47a34358c",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "cfgvhbjnkml"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "{{BaseUrl}}/invoice/{{invoiceId}}"
+					},
+					"response": []
+				},
+				{
+					"name": "No Auth",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "f2ecddfe-12d2-45f7-be1f-630f4f86d08c",
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"pm.test(\"Status code is 401\", function () {",
+									"    pm.response.to.have.status(401);",
+									"});",
+									"pm.test(\"Verify that message is Unauthorized\", function () {",
+									"    pm.expect(jsonData.message).to.eql(\"Unauthorized\");",
+									"});",
+									"pm.test(\"Verify That statusCode is 401\", function () {",
+									"    pm.expect(jsonData.statusCode).to.eql(401);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"id": "6313f9f0-e35f-49fc-8723-9e04d868e6fb",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": "{{BaseUrl}}/invoice/{{invoiceId}}"
+					},
+					"response": []
+				}
+			],
+			"id": "617107bf-1f44-4de1-a0f7-fcfc2947283a"
+		},
+		{
+			"name": "Invalid Endpoint",
+			"item": [
+				{
+					"name": "Invalid endpoint",
+					"id": "aebed444-ab0e-49fc-9ae5-d2fc04f79652",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "{{BaseUrl}}/invoiccce/{{invoiceId}}"
+					},
+					"response": []
+				}
+			],
+			"id": "0a690617-1888-4a10-bd67-5020b77aeb89"
+		}
+	]
+}
