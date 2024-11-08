@@ -1,0 +1,13 @@
+{
+    "userId": "1234567u8iojhjgcf",
+    "customerName": "Favour",
+    "customerAddress": "11 test village",
+    "details":[
+        {
+        "productCode": "112212",
+        "productDescription": "test invoice",
+        "productQuantity": "5",
+        "productPricePerUnit": "1000"
+    }
+    ]
+}

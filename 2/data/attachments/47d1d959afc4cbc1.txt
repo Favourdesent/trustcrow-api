@@ -1,0 +1,30 @@
+let jsonData = pm.response.json();
+
+pm.test("Request is successful", function () {
+    pm.expect(jsonData.isSuccessful).to.be.true;
+});
+pm.test("Status code is 200", function () {
+    pm.response.to.have.status(200);
+});
+
+pm.test("Status code is 200", function () {
+    pm.expect(jsonData.statusCode).to.eql(200);
+});
+
+pm.test("Message is 'User created successfully'", function () {
+    pm.expect(jsonData.message).to.eql("User created successfully");
+});
+
+pm.test("Data fields are as expected", function () {
+    pm.expect(jsonData.data).to.have.property("name", "favour");
+    pm.expect(jsonData.data).to.have.property("email").that.is.a("string");
+    pm.expect(jsonData.data).to.have.property("createdAt");
+    pm.expect(jsonData.data).to.have.property("updatedAt");
+});
+
+pm.test("createdAt and updatedAt are in valid date format", function () {
+    const createdAt = new Date(jsonData.data.createdAt);
+    const updatedAt = new Date(jsonData.data.updatedAt);
+    pm.expect(createdAt.toISOString()).to.eql(jsonData.data.createdAt);
+    pm.expect(updatedAt.toISOString()).to.eql(jsonData.data.updatedAt);
+});

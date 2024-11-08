@@ -1,0 +1,5 @@
+{
+    "email": "favourdesent@gmail.com",
+    "password": "@passwordA1",
+    "name": "favour"
+}
