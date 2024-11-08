@@ -1,0 +1,16 @@
+let jsonData = pm.response.json();
+
+pm.test("Status code is 400", function () {
+    pm.response.to.have.status(400);
+});
+pm.test("Error is 'Bad Request'", function () {
+    pm.expect(jsonData.error).to.eql('Bad Request');
+});
+
+pm.test("Status code is 400", function () {
+    pm.expect(jsonData.statusCode).to.eql(400);
+});
+
+pm.test("Message Contain 'password should not be empty'", function () {
+    pm.expect(jsonData.message).to.contain("password should not be empty");
+});

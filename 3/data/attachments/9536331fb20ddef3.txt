@@ -1,0 +1,5 @@
+{
+    "email": "Magnolia@yopmail.com",
+    "password": "@passwordA1",
+    "name": "favour"
+}

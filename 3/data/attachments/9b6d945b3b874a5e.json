@@ -1,0 +1,10 @@
+{
+    "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlZmEwN2YwLTk3NTQtNDU4ZC04YjA3LWVlYTlhOTY1MDliOSIsImlhdCI6MTczMTAyNTMzMiwiZXhwIjoxNzMxMjg0NTMyfQ.ILixwhlpzl4H3XbX6jUvXwLsJYfKCJIk2JckVIBO13s",
+    "User-Agent": "PostmanRuntime/7.39.1",
+    "Accept": "*/*",
+    "Cache-Control": "no-cache",
+    "Postman-Token": "52338dae-aefe-47bc-93c6-9446cc8a1bc3",
+    "Host": "invoicing-backend-eozb.onrender.com",
+    "Accept-Encoding": "gzip, deflate, br",
+    "Connection": "keep-alive"
+}

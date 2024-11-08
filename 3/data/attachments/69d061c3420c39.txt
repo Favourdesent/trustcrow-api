@@ -1,0 +1,10 @@
+var jsonData = pm.response.json();
+pm.test("Status code is 401", function () {
+    pm.response.to.have.status(401);
+});
+pm.test("Verify that message is Unauthorized", function () {
+    pm.expect(jsonData.message).to.eql("Unauthorized");
+});
+pm.test("Verify That statusCode is 401", function () {
+    pm.expect(jsonData.statusCode).to.eql(401);
+});
