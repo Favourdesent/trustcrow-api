@@ -1,0 +1,19 @@
+let jsonData = pm.response.json();
+
+pm.test("Status code is 409", function () {
+    pm.response.to.have.status(409);
+});
+pm.test("Request is not successful", function () {
+    pm.expect(jsonData.isSuccessful).to.be.false;
+});
+
+pm.test("Status code is 409", function () {
+    pm.expect(jsonData.statusCode).to.eql(409);
+});
+
+pm.test("Message is 'Email already exists'", function () {
+    pm.expect(jsonData.message).to.eql("Email already exists");
+});
+pm.test("No data is returned", function () {
+    pm.expect(jsonData.data).to.be.null;
+});

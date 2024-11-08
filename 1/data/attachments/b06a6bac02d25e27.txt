@@ -1,0 +1,19 @@
+let jsonData = pm.response.json();
+
+pm.test("Request is successful", function () {
+    pm.expect(jsonData.isSuccessful).to.be.true;
+});
+pm.test("Status code is 200", function () {
+    pm.response.to.have.status(200);
+});
+
+pm.test("Status code is 200", function () {
+    pm.expect(jsonData.statusCode).to.eql(200);
+});
+
+pm.test("Message is 'All invoices fetched successfully'", function () {
+    pm.expect(jsonData.message).to.eql("All invoices fetched successfully");
+});
+pm.test("Verify that Data is return", function () {
+    pm.expect(jsonData.data).to.not.be.null;
+});

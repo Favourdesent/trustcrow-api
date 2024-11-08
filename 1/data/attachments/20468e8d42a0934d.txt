@@ -1,0 +1,16 @@
+var jsonData = pm.response.json();
+pm.test("Status code is 400", function () {
+    pm.response.to.have.status(400);
+});
+pm.test("Verify that message is returned", function () {
+    pm.expect(jsonData.message).to.eql("Invalid email or password");
+});
+pm.test("Verify statusCode is 400", function () {
+    pm.expect(jsonData.statusCode).to.eql(400);
+});
+pm.test("Verify data is null", function () {
+    pm.expect(jsonData.data).to.be.null;
+});
+pm.test("Verify that the request is not successful", function () {
+    pm.expect(jsonData.isSuccessful).to.be.false;
+});

@@ -1,0 +1,10 @@
+{
+    "Authorization": "Bearer dxcfvgbhnjmk,",
+    "User-Agent": "PostmanRuntime/7.39.1",
+    "Accept": "*/*",
+    "Cache-Control": "no-cache",
+    "Postman-Token": "85520a70-3130-4bc7-b07b-2e0e68320718",
+    "Host": "invoicing-backend-eozb.onrender.com",
+    "Accept-Encoding": "gzip, deflate, br",
+    "Connection": "keep-alive"
+}

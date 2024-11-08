@@ -1,0 +1,17 @@
+{
+    "Date": "Fri, 08 Nov 2024 00:14:51 GMT",
+    "Content-Type": "application/json; charset=utf-8",
+    "Transfer-Encoding": "chunked",
+    "Connection": "keep-alive",
+    "CF-Ray": "8df15d807a5305e0-IAD",
+    "CF-Cache-Status": "DYNAMIC",
+    "Access-Control-Allow-Origin": "*",
+    "Content-Encoding": "br",
+    "ETag": "W/\"e3bb-7306+k6czOq2PUamLNP2qp5TOF8\"",
+    "Vary": "Accept-Encoding",
+    "rndr-id": "768c0672-2da9-4cdc",
+    "x-powered-by": "Express",
+    "x-render-origin-server": "Render",
+    "Server": "cloudflare",
+    "alt-svc": "h3=\":443\"; ma=86400"
+}
