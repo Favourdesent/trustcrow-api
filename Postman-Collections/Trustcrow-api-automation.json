@@ -1103,7 +1103,7 @@
 									"});",
 									"",
 									"pm.test(\"Message is returned\", function () {",
-									"    pm.expect(jsonData.message).to.eql(\"Cannot POST /api/Authh/signup\");",
+									"    pm.expect(jsonData.message).to.eql(\"Cannot GET /api/invoiccce/870b76ad-0327-4a02-b563-d79045f28e3d\");",
 									"});",
 									"pm.test(\"Error is 'Not Found'\", function () {",
 									"    pm.expect(jsonData.error).to.eql('Not Found');",
