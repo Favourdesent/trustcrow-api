@@ -1,0 +1,1 @@
+{"isSuccessful":true,"statusCode":200,"message":"User created successfully","data":{"name":"favour","email":"Ilene@yopmail.com","createdAt":"2024-11-08T00:19:10.168Z","updatedAt":"2024-11-08T00:19:10.168Z"}}

@@ -1,0 +1,29 @@
+var jsonData = pm.response.json();
+pm.environment.set("invoiceId", jsonData.data.id);
+pm.test("Status code is 201", function () {
+    pm.response.to.have.status(201);
+});
+pm.test("Verify that message is Login successfully", function () {
+    pm.expect(jsonData.message).to.eql("Invoice created successfully");
+});
+pm.test("Verify that data is returned", function () {
+    pm.expect(jsonData.data).to.not.be.null;
+});
+pm.test("Verify that statuscode is 201", function () {
+    pm.expect(jsonData.statusCode).to.eql(201);
+});
+pm.test("Verify that the request is successful", function () {
+    pm.expect(jsonData.isSuccessful).to.be.true
+});
+pm.test("Response has correct data fields", function () {
+    const data = pm.response.json().data;
+    pm.expect(data).to.have.property("customerName");
+    pm.expect(data).to.have.property("customerAddress");
+    pm.expect(data).to.have.property("userId");
+    pm.expect(data).to.have.property("productSubtotal", "5000.00");
+    pm.expect(data).to.have.property("invoiceTotal", "5000.00");
+    pm.expect(data).to.have.property("id");
+    pm.expect(data).to.have.property("createdAt");
+    pm.expect(data).to.have.property("updatedAt");
+    pm.expect(data).to.have.property("invoiceNumber");
+});

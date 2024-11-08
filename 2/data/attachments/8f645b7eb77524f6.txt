@@ -1,0 +1,10 @@
+var jsonData = pm.response.json();
+pm.test("Status code is 400", function () {
+    pm.response.to.have.status(400);
+});
+pm.test("Verify that message is returned", function () {
+    pm.expect(jsonData.message).to.eql("Invalid userId");
+});
+pm.test("Verify That statusCode is 400", function () {
+    pm.expect(jsonData.statusCode).to.eql(400);
+});
